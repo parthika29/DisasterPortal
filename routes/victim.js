@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { authenticateJWT, authorizeRoles } = require('../middleware/authmiddleware');
+const { authenticateJWT, authorizeRoles } = require('../middleware/authMiddleware');
+
 const Request = require('../models/request');
 const multer = require('multer');
 

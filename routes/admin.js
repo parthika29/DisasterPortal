@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+const User = require('../models/user');
 const Request = require('../models/request');
-const { authenticateJWT, authorizeRoles } = require('../middleware/authmiddleware');
+const { authenticateJWT, authorizeRoles } = require('../middleware/authMiddleware');
 
 
 router.get('/dashboard', authenticateJWT, authorizeRoles('admin'), async (req, res) => {
