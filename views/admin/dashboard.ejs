@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #ebfaf9 0%, #d5e8e6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(13, 115, 119, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(167, 211, 212, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(177, 167, 212, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0d2677 0%, #14a085 50%, #2eb398 100%);
+            color: white;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            margin: 0;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0d1177;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #14a085;
+            display: inline-block;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stats .card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fdfd 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #e8f5f3;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(13, 115, 119, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(135deg, #0d2677 0%, #14a085 100%);
+        }
+
+        .stats .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(13, 115, 119, 0.2);
+        }
+
+        .stats .card strong {
+            display: block;
+            font-size: 2.5rem;
+            color: #0d1177;
+            margin-top: 10px;
+            font-weight: 700;
+        }
+
+        .stats .card span {
+            color: #34495e;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .table-container {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fdfd 100%);
+            border-radius: 15px;
+            border: 2px solid #e8f5f3;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(13, 115, 119, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        table th {
+            background: linear-gradient(135deg, #0d2677 0%, #14a085 100%);
+            color: white;
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        table td {
+            padding: 15px;
+            border-bottom: 1px solid #e8f5f3;
+            vertical-align: middle;
+        }
+
+        table tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        table tbody tr:nth-child(even) {
+            background: #f8fdfd;
+        }
+
+        table tbody tr:hover {
+            background: #e0f2f1;
+            transform: scale(1.01);
+        }
+
+        .assign-form {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        select {
+            padding: 8px 12px;
+            border: 2px solid #e8f5f3;
+            border-radius: 8px;
+            background: white;
+            font-size: 0.9rem;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #1414a0;
+            box-shadow: 0 0 0 2px rgba(20, 20, 160, 0.1);
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-assign {
+            background: linear-gradient(135deg, #0d2677 0%, #14a085 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(13, 38, 119, 0.3);
+        }
+
+        .btn-assign:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(13, 38, 119, 0.4);
+        }
+
+        .btn-approve {
+            background: linear-gradient(135deg, #28a745 0%, #34ce57 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-approve:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+        }
+
+        .btn-reject {
+            background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-reject:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+        }
+
+        .volunteers-list {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fdfd 100%);
+            border-radius: 15px;
+            border: 2px solid #e8f5f3;
+            box-shadow: 0 4px 15px rgba(13, 115, 119, 0.1);
+            overflow: hidden;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        ul li {
+            padding: 20px;
+            border-bottom: 1px solid #e8f5f3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            transition: all 0.2s ease;
+        }
+
+        ul li:hover {
+            background: #f0f8ff;
+            transform: translateX(5px);
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        .volunteer-info {
+            flex: 1;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .volunteer-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-assigned {
+            background: #cce5ff;
+            color: #0052cc;
+        }
+
+        .status-resolved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .assigned-text {
+            color: #28a745;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #7f8c8d;
+        }
+
+        .empty-state h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #240d77;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                margin: 10px;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            table th,
+            table td {
+                padding: 12px 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 800px;
+            }
+
+            ul li {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .volunteer-actions {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                padding: 20px 15px;
+            }
+
+            .assign-form {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            select {
+                min-width: auto;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👨‍💼 Welcome, <%= user.name %> (Admin)</h1>
+            <form action="/auth/logout" method="POST">
+                <button type="submit" class="logout-btn"> Logout</button>
+            </form>
+        </div>
+
+        <div class="content">
+            <!-- Stats Section -->
+            <section class="stats">
+                <div class="card">
+                    <span>📊 Total Requests</span>
+                    <strong><%= stats.total %></strong>
+                </div>
+                <div class="card">
+                    <span>⏳ Pending</span>
+                    <strong><%= stats.pending %></strong>
+                </div>
+                <div class="card">
+                    <span>👥 Assigned</span>
+                    <strong><%= stats.assigned %></strong>
+                </div>
+                <div class="card">
+                    <span>✅ Resolved</span>
+                    <strong><%= stats.resolved %></strong>
+                </div>
+            </section>
+
+            <!-- Requests Table Section -->
+            <div class="section">
+                <h2 class="section-title">📋 All Help Requests</h2>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>🏷️ Type</th>
+                                <th>📍 Pincode</th>
+                                <th>📊 Status</th>
+                                <th>👤 Victim</th>
+                                <th>🤝 Assigned Volunteer</th>
+                                <th>⚙️ Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (requests && requests.length > 0) { %>
+                                <% requests.forEach(request => { %>
+                                <tr>
+                                    <td><strong><%= request.type %></strong></td>
+                                    <td><%= request.pincode %></td>
+                                    <td>
+                                        <span class="status-badge status-<%= request.status.toLowerCase() %>">
+                                            <%= request.status %>
+                                        </span>
+                                    </td>
+                                    <td><%= request.createdBy?.name || "N/A" %></td>
+                                    <td><%= request.assignedVolunteer?.name || "Unassigned" %></td>
+                                    <td>
+                                        <% if(request.status === "Pending"){ %>
+                                            <form class="assign-form" data-id="<%= request._id %>">
+                                                <select name="volunteerId" required>
+                                                    <option value="">Select Volunteer</option>
+                                                    <% volunteers.forEach(v => { %>
+                                                        <% if(v.approved){ %>
+                                                            <option value="<%= v._id %>"><%= v.name %></option>
+                                                        <% } %>
+                                                    <% }) %>
+                                                </select>
+                                                <button type="submit" class="btn btn-assign">Assign</button>
+                                            </form>
+                                        <% } else { %>
+                                            <span class="assigned-text">✅ Assigned</span>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="6" class="empty-state">
+                                        <h3>No Help Requests</h3>
+                                        <p>No help requests have been submitted yet.</p>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Volunteer Applications Section -->
+            <div class="section">
+                <h2 class="section-title">👥 Pending Volunteer Applications</h2>
+                
+                <div class="volunteers-list">
+                    <% 
+                    const pendingVolunteers = volunteers.filter(v => !v.approved);
+                    if (pendingVolunteers.length > 0) { %>
+                        <ul>
+                            <% pendingVolunteers.forEach(v => { %>
+                                <li>
+                                    <div class="volunteer-info">
+                                        <strong><%= v.name %></strong> - <%= v.email %>
+                                        <br>
+                                        <small style="color: #7f8c8d;">📍 Pincode: <%= v.pincode || 'Not specified' %></small>
+                                    </div>
+                                    <div class="volunteer-actions">
+                                        <button class="btn btn-approve approve-btn" data-id="<%= v._id %>">
+                                            ✅ Approve
+                                        </button>
+                                        <button class="btn btn-reject reject-btn" data-id="<%= v._id %>">
+                                            ❌ Reject
+                                        </button>
+                                    </div>
+                                </li>
+                            <% }) %>
+                        </ul>
+                    <% } else { %>
+                        <div class="empty-state">
+                            <h3>🎉 No Pending Applications</h3>
+                            <p>All volunteer applications have been processed.</p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>Register</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #ebfaf9 0%, #d5e8e6 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(13, 115, 119, 0.2);
+            max-width: 500px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(167, 211, 212, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(177, 167, 212, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0d1177;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            color: #c62828;
+            border-left: 4px solid #e57373;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+            color: #2e7d32;
+            border-left: 4px solid #66bb6a;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #240d77;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e8f5f3;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: linear-gradient(135deg, #f8fdfd 0%, #ffffff 100%);
+            transition: all 0.3s ease;
+            color: #2c3e50;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #1414a0;
+            box-shadow: 0 0 0 3px rgba(20, 20, 160, 0.1);
+            background: white;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            user-select: none;
+            font-size: 1.2rem;
+            color: #240d77;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-password:hover {
+            opacity: 0.7;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #0d2677 0%, #14a085 50%, #2eb398 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(13, 38, 119, 0.3);
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(13, 38, 119, 0.4);
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+        .container p {
+            text-align: center;
+            color: #34495e;
+            font-size: 0.95rem;
+        }
+
+        .container p a {
+            color: #240d77;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .container p a:hover {
+            color: #1414a0;
+            text-decoration: underline;
+        }
+
+        #adminCodeGroup {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                max-height: 100px;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 25px;
+                margin: 10px;
+            }
+
+            .container h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Form validation styles */
+        input:invalid {
+            border-color: #ffcdd2;
+        }
+
+        input:valid {
+            border-color: #c8e6c9;
+        }
+
+        select:invalid {
+            border-color: #ffcdd2;
+        }
+
+        select:valid {
+            border-color: #c8e6c9;
+        }
+
+        /* Custom select styling */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23240d77' viewBox='0 0 16 16'%3e%3cpath d='m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2> Registration</h2>
+        
+        <% if (error) { %>
+            <div class="alert alert-danger">
+                <%= error %>
+            </div>
+        <% } %>
+        
+        <% if (message) { %>
+            <div class="alert alert-success">
+                <%= message %>
+            </div>
+        <% } %>
+        
+        <form class="needs-validation" method="POST" action="/auth/register">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Password</label>
+                <div class="password-wrapper">
+                    <input type="password" name="password" required>
+                    <span class="toggle-password">👁️</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Role</label>
+                <select name="role" required>
+                    <option value="">Select Role</option>
+                    <option value="victim">Victim</option>
+                    <option value="volunteer">Volunteer</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            
+            <div class="form-group" id="adminCodeGroup" style="display: none;">
+                <label>Admin Secret Code (Only for Admins)</label>
+                <input type="text" name="adminCode" placeholder="Leave blank if not admin">
+            </div>
+            
+            <div class="form-group">
+                <label>Pincode</label>
+                <input type="text" name="pincode" maxlength="6" pattern="\d{6}" required>
+            </div>
+
+           
+            <button type="submit">Register</button>
+            <p>Already have an account? <a href="/auth/login">Login</a></p>
+        </form>
+    </div>
+    
+    <script src="/js/main.js"></script>
+    <script>
+        const roleSelect = document.querySelector('select[name="role"]');
+        const adminCodeGroup = document.getElementById('adminCodeGroup');
+        
+        roleSelect.addEventListener('change', function () {
+            if (this.value === 'admin') {
+                adminCodeGroup.style.display = 'block';
+            } else {
+                adminCodeGroup.style.display = 'none';
+            }
+        });
+
+        // Password toggle functionality
+        const togglePassword = document.querySelector('.toggle-password');
+        const passwordInput = document.querySelector('input[name="password"]');
+
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+    </script>
+</body>
+</html>
