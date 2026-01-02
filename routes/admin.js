@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user');
+const User = require('../models/User');
 const Request = require('../models/request');
 const { authenticateJWT, authorizeRoles } = require('../middleware/authmiddleware');
 
