@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { authenticateJWT, authorizeRoles } = require('../middleware/authMiddleware');
+const { authenticateJWT, authorizeRoles } = require('../middleware/authmiddleware');
 const Request = require('../models/request');
 
 // Volunteer Dashboard
